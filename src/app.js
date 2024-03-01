@@ -44,28 +44,27 @@ app.get('/status', (req, res) => {
 *       200:
 *         description: Retrieves a list of products
 */
-app.get('/api/getAllProducts', (req, res) => {
-  AB3_TABLE = "DYNAMODB_TABLE"  //DYNAMODB_TABLE value is retrieved from the generated resources created by the terraform code
-    const docClient = new AWS.DynamoDB.DocumentClient();
-    const params = {
-      TableName: AB3_TABLE
-    }
+app.get('/api/getAllProducts', (req, res) => {  
+  const AB3_TABLE = process.env.DYNAMODB_TABLE; 
+  const docClient = new AWS.DynamoDB.DocumentClient();  
+  const params = {  
+    TableName: AB3_TABLE  
+  };  
   
-    docClient.scan(params, function(err, data) {
-      if (err) {
-        res.send({
-          code: err.status,
-          description: err.message
-        });
-      } else {
-        var products = data.Items
-        res.send({
-          products
-        });
-      }
-    });
-
-})
+  docClient.scan(params, function(err, data) {  
+    if (err) {  
+      res.send({  
+        code: err.statusCode, // Use statusCode instead of status  
+        description: err.message  
+      });  
+    } else {  
+      var products = data.Items;  
+      res.send({  
+        products  
+      });  
+    }  
+  });  
+}); 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
