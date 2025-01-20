@@ -1,6 +1,7 @@
 name: Trivy Vulnerability Scan
+
 on:
-  workflow_dispatch:
+  push:
     branches:
       - main
 
@@ -14,8 +15,11 @@ jobs:
 
       - name: Install Trivy
         run: |
-          curl -s https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
-
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.25.0/trivy_0.25.0_Linux-x86_64.deb
+          sudo dpkg -i trivy_0.25.0_Linux-x86_64.deb
+          
       - name: Run Trivy scan
         run: trivy fs . --severity HIGH,CRITICAL --format github-action --output trivy-report.json
 
