@@ -19,7 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "swagger-jsdoc": "6.0.0",
-    "swagger-model-validator": "^3.0.20",
+    "swagger-model-validator": "^3.0.21",
     "swagger-ui-express": "^4.1.6"
   }
 }
